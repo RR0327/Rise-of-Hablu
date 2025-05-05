@@ -46,3 +46,25 @@ class FunFact(models.Model):
     def __str__(self):
         return self.fact[:50]  # first 50 chars
 
+# Phase 4: Hero Dashboard
+
+# Study Group Planner Model
+class StudyGroup(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    date = models.DateField()
+    time = models.TimeField()
+    location = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.title
+
+# Hero Dashboard Model (Example stats/info of user)
+class HeroDashboard(models.Model):
+    user_name = models.CharField(max_length=100)
+    level = models.IntegerField(default=1)
+    experience_points = models.IntegerField(default=0)
+    completed_tasks = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.user_name

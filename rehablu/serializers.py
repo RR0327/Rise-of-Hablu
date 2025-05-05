@@ -37,3 +37,18 @@ class FunFactSerializer(serializers.ModelSerializer):
     class Meta:
         model = FunFact
         fields = '__all__'
+
+# Phase 4: Hero Dashboard
+
+from rest_framework import serializers
+from .models import StudyGroup, HeroDashboard
+
+class StudyGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudyGroup
+        fields = '__all__'
+
+class HeroDashboardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HeroDashboard
+        fields = '__all__'

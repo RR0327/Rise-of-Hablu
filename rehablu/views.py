@@ -38,3 +38,17 @@ from .serializers import FunFactSerializer
 class FunFactViewSet(viewsets.ModelViewSet):
     queryset = FunFact.objects.all()
     serializer_class = FunFactSerializer
+
+# Phase 4: Hero Dashboard
+
+from rest_framework import viewsets
+from .models import StudyGroup, HeroDashboard
+from .serializers import StudyGroupSerializer, HeroDashboardSerializer
+
+class StudyGroupViewSet(viewsets.ModelViewSet):
+    queryset = StudyGroup.objects.all()
+    serializer_class = StudyGroupSerializer
+
+class HeroDashboardViewSet(viewsets.ReadOnlyModelViewSet):  # ReadOnly (GET only)
+    queryset = HeroDashboard.objects.all()
+    serializer_class = HeroDashboardSerializer
