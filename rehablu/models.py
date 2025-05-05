@@ -74,3 +74,27 @@ class HeroDashboard(models.Model):
     def __str__(self):
         return self.full_name
     
+    
+# Chatbot
+from django.db import models
+class OpenAIChat(models.Model):
+    messages = models.TextField()  # Stores the conversation history
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Chat {self.id}"
+
+# run hablu run
+
+from django.db import models
+
+class Marathon(models.Model):
+    name = models.CharField(max_length=100)
+    date = models.DateField()
+    location = models.CharField(max_length=100)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    top_participant = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name

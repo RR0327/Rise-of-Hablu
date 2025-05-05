@@ -53,3 +53,22 @@ class HeroDashboardSerializer(serializers.ModelSerializer):
         model = HeroDashboard
         fields = ['full_name', 'email', 'phone', 'title']  # <-- Only valid model fields here!
         
+# Chatbot
+from rest_framework import serializers
+from .models import OpenAIChat
+
+class OpenAIChatSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = OpenAIChat
+        fields = '__all__'
+        read_only_fields = ('created_at',)
+
+
+# run hablu run
+from rest_framework import serializers
+from .models import Marathon
+
+class MarathonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Marathon
+        fields = '__all__'

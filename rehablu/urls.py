@@ -2,9 +2,10 @@
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
 from .views import (
     SubjectGradeViewSet, JobViewSet, MovieViewSet, FunFactViewSet,
-    StudyGroupViewSet, HeroDashboardViewSet
+    StudyGroupViewSet, HeroDashboardViewSet, OpenAIChatViewSet, MarathonViewSet
 )
 
 router = DefaultRouter()
@@ -20,6 +21,14 @@ router.register(r'funfacts', FunFactViewSet)
 # Phase 4
 router.register(r'studygroups', StudyGroupViewSet)
 router.register(r'herodashboard', HeroDashboardViewSet, basename='herodashboard')
+
+# Chatbots
+router.register(r'chatbot', OpenAIChatViewSet, basename='chatbot')
+
+#Run Hablu, Run
+
+router.register(r'marathon', MarathonViewSet, basename='marathon')
+
 
 urlpatterns = [
     path('', include(router.urls)),
