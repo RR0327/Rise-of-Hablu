@@ -1,4 +1,6 @@
 from django.contrib import admin
-from .models import CGPA   # <== This is the correct model
+from .models import Job, Movie, FunFact
 
-admin.site.register(CGPA)
+admin.site.register(Job)
+admin.site.register(Movie)
+admin.site.register(FunFact)
