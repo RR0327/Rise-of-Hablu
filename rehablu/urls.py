@@ -19,7 +19,7 @@ router.register(r'funfacts', FunFactViewSet)
 
 # Phase 4
 router.register(r'studygroups', StudyGroupViewSet)
-router.register(r'herodashboard', HeroDashboardViewSet)
+router.register(r'herodashboard', HeroDashboardViewSet, basename='herodashboard')
 
 urlpatterns = [
     path('', include(router.urls)),

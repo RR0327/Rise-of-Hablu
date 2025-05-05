@@ -41,7 +41,7 @@ class FunFactViewSet(viewsets.ModelViewSet):
 
 # Phase 4: Hero Dashboard
 
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from .models import StudyGroup, HeroDashboard
 from .serializers import StudyGroupSerializer, HeroDashboardSerializer
 
@@ -49,6 +49,7 @@ class StudyGroupViewSet(viewsets.ModelViewSet):
     queryset = StudyGroup.objects.all()
     serializer_class = StudyGroupSerializer
 
-class HeroDashboardViewSet(viewsets.ReadOnlyModelViewSet):  # ReadOnly (GET only)
+class HeroDashboardViewSet(viewsets.ModelViewSet):
     queryset = HeroDashboard.objects.all()
     serializer_class = HeroDashboardSerializer
+    

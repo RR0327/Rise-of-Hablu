@@ -60,11 +60,17 @@ class StudyGroup(models.Model):
         return self.title
 
 # Hero Dashboard Model (Example stats/info of user)
+
+# rehablu/models.py
+
+from django.db import models
+
 class HeroDashboard(models.Model):
-    user_name = models.CharField(max_length=100)
-    level = models.IntegerField(default=1)
-    experience_points = models.IntegerField(default=0)
-    completed_tasks = models.IntegerField(default=0)
+    full_name = models.CharField(max_length=255, default='Unknown')
+    email = models.EmailField(default="example@example.com")
+    phone = models.CharField(max_length=15)
+    title = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.user_name
+        return self.full_name
+    

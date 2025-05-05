@@ -51,4 +51,5 @@ class StudyGroupSerializer(serializers.ModelSerializer):
 class HeroDashboardSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeroDashboard
-        fields = '__all__'
+        fields = ['full_name', 'email', 'phone', 'title']  # <-- Only valid model fields here!
+        
