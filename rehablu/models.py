@@ -1,4 +1,5 @@
-# Phase 1: Create a Django model for CGPA and Subject Grade
+# Phase 1: 
+# Feature 1: Create a Django model for CGPA and Subject Grade
 
 from django.db import models
 
@@ -12,6 +13,31 @@ class SubjectGrade(models.Model):
 
     def __str__(self):
         return f'{self.semester} - {self.gpa}'
+
+# Feature 2: Learn new skills
+
+from django.db import models
+
+# PHASE 1: Learn New Skills
+class LearnNewSkill(models.Model):
+    skill_name = models.CharField(max_length=100)
+    description = models.TextField()
+    resources = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.skill_name
+
+# PHASE 2 
+
+# Feature 2: Dress Better
+
+class DressBetter(models.Model):
+    outfit_name = models.CharField(max_length=100)
+    occasion = models.CharField(max_length=100)
+    style_tips = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.outfit_name
 
 # Phase 3: Career & Brain Boosters (3 Features)
 

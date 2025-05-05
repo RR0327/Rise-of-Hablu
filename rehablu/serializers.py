@@ -1,13 +1,34 @@
-# Phase 1: Create a Django model for CGPA and Subject Grade
+# Phase 1: 
+# Feature 1: Create a Django model for CGPA and Subject Grade
 
 from rest_framework import serializers
-from .models import SubjectGrade
+from .models import SubjectGrade, LearnNewSkill, DressBetter
 
 class SubjectGradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubjectGrade
         fields = '__all__'
         read_only_fields = ('grade_point',)  # Prevent external write
+
+# Feature 2: Learn new skills
+
+from rest_framework import serializers
+from .models import LearnNewSkill
+
+# PHASE 1: Learn New Skills
+class LearnNewSkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LearnNewSkill
+        fields = '__all__'
+
+# PHASE 2 
+
+# Feature 2: Dress Better
+
+class DressBetterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DressBetter
+        fields = '__all__'
 
 # Phase 3: Career & Brain Boosters (3 Features)
 # Feature 1: Find a Job

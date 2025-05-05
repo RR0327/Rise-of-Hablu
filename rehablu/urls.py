@@ -3,7 +3,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    SubjectGradeViewSet, JobViewSet, MovieViewSet, FunFactViewSet,
+    SubjectGradeViewSet, LearnNewSkillViewSet, DressBetterViewSet, JobViewSet, MovieViewSet, FunFactViewSet,
     StudyGroupViewSet, HeroDashboardViewSet
 )
 
@@ -11,6 +11,10 @@ router = DefaultRouter()
 
 # Phase 1
 router.register(r'subjectgrades', SubjectGradeViewSet)
+router.register(r'learnskills', LearnNewSkillViewSet)
+
+# Phase 2
+router.register(r'dressbetter', DressBetterViewSet)
 
 # Phase 3
 router.register(r'jobs', JobViewSet)
