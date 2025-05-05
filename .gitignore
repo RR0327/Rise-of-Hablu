@@ -2,7 +2,7 @@
 *.pyc
 *.pyo
 _pycache_/
-# hi
+# Hi
 
 # Virtual Environment
 .venv/

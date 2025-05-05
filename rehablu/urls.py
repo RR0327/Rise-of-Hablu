@@ -5,13 +5,17 @@ from rest_framework.routers import DefaultRouter
 
 from .views import (
     SubjectGradeViewSet, JobViewSet, MovieViewSet, FunFactViewSet,
-    StudyGroupViewSet, HeroDashboardViewSet, OpenAIChatViewSet, MarathonViewSet
+    StudyGroupViewSet, HeroDashboardViewSet, LearnNewSkillViewSet, DressBetterViewSet, OpenAIChatViewSet, MarathonViewSet
 )
 
 router = DefaultRouter()
 
 # Phase 1
 router.register(r'subjectgrades', SubjectGradeViewSet)
+router.register(r'learnskills', LearnNewSkillViewSet)
+
+# Phase 2
+router.register(r'dressbetter', DressBetterViewSet)
 
 # Phase 3
 router.register(r'jobs', JobViewSet)
