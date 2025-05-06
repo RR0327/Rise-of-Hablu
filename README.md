@@ -1,6 +1,6 @@
-## <h1 align="center">Rise of Hablu</h1>
+## <h1 align="center">Rise of Hablu — Personal Growth & Productivity Platform</h1>
 
-A comprehensive **Rise of Hablu** that helps users track and enhance multiple areas of life including academics, careers, entertainment, personal skills, and self-improvement.
+A comprehensive **Rise of Hablu — Personal Growth & Productivity Platform** that helps users track and enhance multiple areas of life including academics, careers, entertainment, personal skills, and self-improvement.
 
 ---
 
@@ -22,6 +22,7 @@ It uses **SQLite3** as the default lightweight database.
 
   * Django Templates
   * HTML, CSS (Vanilla)
+  * JavaScript 
 
 * **Database**
 
