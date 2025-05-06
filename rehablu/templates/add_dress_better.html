@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Outfit</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Add New Outfit</h1>
+    <form id="add-outfit-form">
+        <div>
+            <label for="outfit_name">Outfit Name:</label>
+            <input type="text" id="outfit_name" name="outfit_name" required>
+        </div>
+        <div>
+            <label for="occasion">Occasion:</label>
+            <input type="text" id="occasion" name="occasion">
+        </div>
+        <div>
+            <label for="style_tips">Style Tips:</label>
+            <textarea id="style_tips" name="style_tips"></textarea>
+        </div>
+        <button type="submit">Add Outfit</button>
+    </form>
+    <script>
+        const form = document.getElementById('add-outfit-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            const response = await fetch('/api/dressbetter/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                alert('Outfit added successfully!');
+                window.location.href = '/dress_better/'; // Redirect to view page
+            } else {
+                const errorData = await response.json();
+                alert(`Error adding outfit: ${JSON.stringify(errorData)}`);
+            }
+        });
+    </script>
+</body>
+</html>

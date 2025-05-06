@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <style>
+        #chat-area {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            height: 300px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+        }
+        .user-message, .ai-message {
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            clear: both;
+        }
+        .user-message {
+            background-color: #e0f7fa;
+            align-self: flex-end;
+            float: right;
+        }
+        .ai-message {
+            background-color: #f0f0f0;
+            align-self: flex-start;
+            float: left;
+        }
+        .sender {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        #chat-form {
+            display: flex;
+        }
+        #user-message {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+        #send-button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat with AI</h1>
+    <div id="chat-area">
+        </div>
+    <form id="chat-form">
+        {% csrf_token %}
+        <input type="text" id="user-message" placeholder="Type your message here">
+        <button type="submit" id="send-button">Send</button>
+    </form>
+    <script>
+        const chatForm = document.getElementById('chat-form');
+const chatArea = document.getElementById('chat-area');
+const userMessageInput = document.getElementById('user-message');
+
+chatForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const message = userMessageInput.value.trim();
+    console.log("User message:", message); // Debugging log
+
+    if (message) {
+        displayMessage('User', message);
+        userMessageInput.value = '';
+
+        const csrfToken = getCookie('csrftoken');
+        console.log("CSRF Token:", csrfToken); // Debugging log
+
+        try {
+            const response = await fetch('/api/chatbot/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({ messages: message }),
+            });
+
+            console.log("Fetch Response:", response); // Debugging log
+
+            const data = await response.json();
+            console.log("Response Data:", data); // Debugging log
+
+            if (response.ok) {
+                if (data.response) {
+                    displayMessage('AI', data.response);
+                } else if (data.error) {
+                    displayMessage('Error', data.error);
+                }
+            } else {
+                let errorMessage = `Failed to send message. Status: ${response.status}`;
+                try {
+                    const errorData = await response.json();
+                    errorMessage += ` - Details: ${JSON.stringify(errorData)}`;
+                } catch (jsonError) {
+                    console.error("Failed to parse error JSON:", jsonError);
+                }
+                displayMessage('Error', errorMessage);
+            }
+        } catch (error) {
+            console.error("Fetch error:", error);
+            displayMessage('Error', 'Failed to send message due to a network error.');
+        }
+    }
+});
+
+function displayMessage(sender, text) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add(sender === 'User' ? 'user-message' : 'ai-message');
+    messageDiv.innerHTML = `<span class="sender">${sender}:</span> ${text}`;
+    chatArea.appendChild(messageDiv);
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trimStart();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = cookie.substring(name.length + 1);
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+    </script>
+</body>
+</html>

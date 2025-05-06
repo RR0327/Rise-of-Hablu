@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Run Hablu Run</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Upcoming Marathons</h1>
+    <ul id="marathon-list">
+        </ul>
+    <h2>Find Marathons Near You</h2>
+    <form id="location-form">
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitude" name="lat">
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitude" name="lon">
+        <button type="submit">Search</button>
+    </form>
+    <script>
+        const marathonList = document.getElementById('marathon-list');
+        const locationForm = document.getElementById('location-form');
+        const latitudeInput = document.getElementById('latitude');
+        const longitudeInput = document.getElementById('longitude');
+
+        async function fetchMarathons(lat, lon) {
+            let url = '/api/marathon/';
+            if (lat && lon) {
+                url += `?lat=${lat}&lon=${lon}`;
+            }
+            const response = await fetch(url);
+            const data = await response.json();
+            marathonList.innerHTML = ''; // Clear previous results
+            data.forEach(marathon => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${marathon.name}</strong> (${marathon.date} at ${marathon.location}) - Top Participant: ${marathon.top_participant}`;
+                marathonList.appendChild(listItem);
+            });
+        }
+
+        fetchMarathons(); // Load all marathons initially
+
+        locationForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const lat = latitudeInput.value.trim();
+            const lon = longitudeInput.value.trim();
+            fetchMarathons(lat, lon);
+        });
+    </script>
+</body>
+</html>

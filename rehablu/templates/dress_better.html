@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dress Better</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Dress Better</h1>
+    <ul id="outfits-list">
+        </ul>
+    <script>
+        async function fetchOutfits() {
+            const response = await fetch('/api/dressbetter/');
+            const data = await response.json();
+            const outfitsList = document.getElementById('outfits-list');
+            data.forEach(outfit => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${outfit.outfit_name}</strong> (Occasion: ${outfit.occasion}): ${outfit.style_tips}`;
+                outfitsList.appendChild(listItem);
+            });
+        }
+        fetchOutfits();
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hero Dashboard</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Hero Dashboard</h1>
+    <div id="hero-info">
+        </div>
+    <script>
+        async function fetchHeroInfo() {
+            const response = await fetch('/api/herodashboard/');
+            const data = await response.json();
+            const heroInfoDiv = document.getElementById('hero-info');
+            if (data.length > 0) {
+                const hero = data[0]; // Assuming you want to display the first entry
+                heroInfoDiv.innerHTML = `
+                    <p><strong>Full Name:</strong> ${hero.full_name}</p>
+                    <p><strong>Email:</strong> ${hero.email}</p>
+                    <p><strong>Phone:</strong> ${hero.phone}</p>
+                    <p><strong>Title:</strong> ${hero.title}</p>
+                `;
+            } else {
+                heroInfoDiv.textContent = "No hero information available.";
+            }
+        }
+        fetchHeroInfo();
+    </script>
+</body>
+</html>

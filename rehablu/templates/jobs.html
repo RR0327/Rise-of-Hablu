@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Find a Job</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Available Jobs</h1>
+    <ul id="jobs-list">
+        </ul>
+    <script>
+        async function fetchJobs() {
+            const response = await fetch('/api/jobs/');
+            const data = await response.json();
+            const jobsList = document.getElementById('jobs-list');
+            data.forEach(job => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${job.title}</strong> at ${job.company} (${job.location}): ${job.description} <br> <a href="${job.link}" target="_blank">Apply Now</a>`;
+                jobsList.appendChild(listItem);
+            });
+        }
+        fetchJobs();
+    </script>
+</body>
+</html>

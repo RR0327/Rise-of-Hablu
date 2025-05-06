@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Learn New Skills</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Learn New Skills</h1>
+    <ul id="skills-list">
+        </ul>
+    <script>
+        async function fetchSkills() {
+            const response = await fetch('/api/learnskills/');
+            const data = await response.json();
+            const skillsList = document.getElementById('skills-list');
+            data.forEach(skill => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${skill.skill_name}</strong>: ${skill.description} <br> Resources: ${skill.resources}`;
+                skillsList.appendChild(listItem);
+            });
+        }
+        fetchSkills();
+    </script>
+</body>
+</html>

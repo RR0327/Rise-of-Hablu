@@ -76,7 +76,7 @@ ROOT_URLCONF = 'rise_of_hablu.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join('rehablu', 'templates')], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -138,6 +138,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'rehablu', 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -145,3 +148,22 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+
+# rise_of_hablu/settings.py
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',  # Or 'INFO', 'ERROR', etc.
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'rehablu': {  # Or the name of your app
+            'handlers': ['console'],
+            'level': 'DEBUG',  # Set to DEBUG to see detailed logs
+            'propagate': True,
+        },
+    },
+}

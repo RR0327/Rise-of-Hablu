@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Subject Grades</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Subject Grades</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Semester</th>
+                <th>GPA</th>
+            </tr>
+        </thead>
+        <tbody id="subject-grades">
+            </tbody>
+    </table>
+    <script>
+        async function fetchSubjectGrades() {
+            const response = await fetch('/api/subjectgrades/');
+            const data = await response.json();
+            const tableBody = document.getElementById('subject-grades');
+            data.forEach(item => {
+                const row = tableBody.insertRow();
+                const semesterCell = row.insertCell();
+                const gpaCell = row.insertCell();
+                semesterCell.textContent = item.semester;
+                gpaCell.textContent = item.gpa;
+            });
+        }
+        fetchSubjectGrades();
+    </script>
+</body>
+</html>

@@ -71,6 +71,7 @@ class HeroDashboardViewSet(viewsets.ModelViewSet):
     serializer_class = HeroDashboardSerializer
     
 # chatbot for  mood tracker/ Mental Health
+# rehablu/views.py
 from .models import OpenAIChat
 from .serializers import OpenAIChatSerializers
 from rest_framework import viewsets
@@ -85,7 +86,13 @@ logger = logging.getLogger(__name__)
 class OpenAIChatViewSet(viewsets.ViewSet):
     queryset = OpenAIChat.objects.all()
     serializer_class = OpenAIChatSerializers
-    
+
+    def list(self, request):
+        """Handles GET requests to /api/chatbot/ (to list chat history)"""
+        queryset = OpenAIChat.objects.all().order_by('-created_at')
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
     def create(self, request):
         api_key = settings.OPENAI_API_KEY
         user_message = request.data.get("messages", "").strip()
@@ -93,14 +100,14 @@ class OpenAIChatViewSet(viewsets.ViewSet):
         if not api_key:
             logger.error("OpenAI API key is missing")
             return Response(
-                {"error": "API key is missing."}, 
+                {"error": "API key is missing."},
                 status=status.HTTP_400_BAD_REQUEST
             )
-            
+
         if not user_message:
             logger.error("Empty message received")
             return Response(
-                {"error": "Message is required."}, 
+                {"error": "Message is required."},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -114,39 +121,46 @@ class OpenAIChatViewSet(viewsets.ViewSet):
                 temperature=0.7,
                 max_tokens=500
             )
-            
-            ai_response = response['choices'][0]['message']['content']
-            
+
+            # Safely extract the AI response
+            ai_response = ""  # Default to empty string
+            if response and response['choices'] and len(response['choices']) > 0:
+                first_choice = response['choices'][0]
+                if 'message' in first_choice and 'content' in first_choice['message']:
+                    ai_response = first_choice['message']['content']
+
+            # Log the raw response for debugging
+            logger.debug(f"OpenAI Response: {response}")
+
             # Save conversation to database
             chat = OpenAIChat.objects.create(
                 messages=f"User: {user_message}\nAI: {ai_response}"
             )
-            
+
             # Return both the AI response and saved chat data
             return Response({
                 "response": ai_response,
-                # "messages": f"User: {user_message}\nAI: {ai_response}",
                 "chat_id": chat.id
             }, status=status.HTTP_201_CREATED)
-            
+
         except openai.error.AuthenticationError:
             logger.error("OpenAI authentication failed")
             return Response(
-                {"error": "Authentication with OpenAI failed."}, 
+                {"error": "Authentication with OpenAI failed."},
                 status=status.HTTP_401_UNAUTHORIZED
             )
         except openai.error.RateLimitError:
             logger.error("OpenAI rate limit exceeded")
             return Response(
-                {"error": "Rate limit exceeded. Please try again later."}, 
+                {"error": "Rate limit exceeded. Please try again later."},
                 status=status.HTTP_429_TOO_MANY_REQUESTS
             )
         except Exception as e:
             logger.error(f"OpenAI API error: {str(e)}")
             return Response(
-                {"error": f"Failed to get response from OpenAI: {str(e)}"}, 
+                {"error": f"Failed to get response from OpenAI: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+            )         
 # Run Hablu, Run
 
 from rest_framework.viewsets import ViewSet
@@ -179,3 +193,4 @@ class MarathonViewSet(ViewSet):
 
         serializer = MarathonSerializer(queryset, many=True)
         return Response(serializer.data)
+   

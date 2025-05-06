@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Fun Fact</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Random Fun Facts</h1>
+    <ul id="facts-list">
+        </ul>
+    <script>
+        async function fetchFacts() {
+            const response = await fetch('/api/funfacts/');
+            const data = await response.json();
+            const factsList = document.getElementById('facts-list');
+            data.forEach(fact => {
+                const listItem = document.createElement('li');
+                listItem.textContent = fact.fact;
+                factsList.appendChild(listItem);
+            });
+        }
+        fetchFacts();
+    </script>
+</body>
+</html>

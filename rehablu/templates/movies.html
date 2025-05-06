@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pick a Movie</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Available Movies</h1>
+    <ul id="movies-list">
+        </ul>
+    <script>
+        async function fetchMovies() {
+            const response = await fetch('/api/movies/');
+            const data = await response.json();
+            const moviesList = document.getElementById('movies-list');
+            data.forEach(movie => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${movie.title}</strong> (${movie.year}), Genre: ${movie.genre} <br> ${movie.description}`;
+                moviesList.appendChild(listItem);
+            });
+        }
+        fetchMovies();
+    </script>
+</body>
+</html>

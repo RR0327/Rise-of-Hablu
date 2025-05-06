@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Skill</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Add New Skill</h1>
+    <form id="add-skill-form">
+        <div>
+            <label for="skill_name">Skill Name:</label>
+            <input type="text" id="skill_name" name="skill_name" required>
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description"></textarea>
+        </div>
+        <div>
+            <label for="resources">Resources:</label>
+            <textarea id="resources" name="resources"></textarea>
+        </div>
+        <button type="submit">Add Skill</button>
+    </form>
+    <script>
+        const form = document.getElementById('add-skill-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            const response = await fetch('/api/learnskills/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                alert('Skill added successfully!');
+                window.location.href = '/learn_skills/'; // Redirect to view page
+            } else {
+                const errorData = await response.json();
+                alert(`Error adding skill: ${JSON.stringify(errorData)}`);
+            }
+        });
+    </script>
+</body>
+</html>

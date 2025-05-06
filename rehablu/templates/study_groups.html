@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Study Group Planner</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Study Groups</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody id="study-groups">
+            </tbody>
+    </table>
+    <script>
+        async function fetchStudyGroups() {
+            const response = await fetch('/api/studygroups/');
+            const data = await response.json();
+            const tableBody = document.getElementById('study-groups');
+            data.forEach(group => {
+                const row = tableBody.insertRow();
+                const titleCell = row.insertCell();
+                const descriptionCell = row.insertCell();
+                const dateCell = row.insertCell();
+                const timeCell = row.insertCell();
+                const locationCell = row.insertCell();
+                titleCell.textContent = group.title;
+                descriptionCell.textContent = group.description;
+                dateCell.textContent = group.date;
+                timeCell.textContent = group.time;
+                locationCell.textContent = group.location;
+            });
+        }
+        fetchStudyGroups();
+    </script>
+</body>
+</html>

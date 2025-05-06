@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Hero Info</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Add Hero Information</h1>
+    <form id="add-hero-form">
+        <div>
+            <label for="full_name">Full Name:</label>
+            <input type="text" id="full_name" name="full_name">
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+        </div>
+        <div>
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone">
+        </div>
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title">
+        </div>
+        <button type="submit">Add Info</button>
+    </form>
+    <script>
+        const form = document.getElementById('add-hero-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            const response = await fetch('/api/herodashboard/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                alert('Hero information added successfully!');
+                window.location.href = '/hero_dashboard/'; // Redirect to view page
+            } else {
+                const errorData = await response.json();
+                alert(`Error adding info: ${JSON.stringify(errorData)}`);
+            }
+        });
+    </script>
+</body>
+</html>

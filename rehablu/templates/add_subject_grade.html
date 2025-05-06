@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Subject Grade</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Add New Subject Grade</h1>
+    <form id="add-grade-form">
+        {% csrf_token %} <div>
+            <label for="semester">Semester:</label>
+            <input type="text" id="semester" name="semester" required>
+        </div>
+        <div>
+            <label for="gpa">GPA:</label>
+            <input type="number" step="0.01" id="gpa" name="gpa" required>
+        </div>
+        <button type="submit">Add Grade</button>
+    </form>
+    <script>
+        async function submitForm(event, apiUrl, redirectUrl) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            const csrfToken = getCookie('csrftoken'); // You'll need a function to get the cookie
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken, // Include the CSRF token in the headers
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                alert('Grade added successfully!');
+                window.location.href = redirectUrl;
+            } else {
+                const errorData = await response.json();
+                alert(`Error adding data: ${JSON.stringify(errorData)}`);
+            }
+        }
+
+        // Helper function to get a cookie by name
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trimStart();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = cookie.substring(name.length + 1);
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Example usage in your form event listener:
+        const form = document.getElementById('add-grade-form');
+        form.addEventListener('submit', (event) => {
+            submitForm(event, '/api/subjectgrades/', '/subject_grades/');
+        });
+    </script>
+</body>
+</html>

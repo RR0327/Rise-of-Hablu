@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Fun Fact</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Add New Fun Fact</h1>
+    <form id="add-fact-form">
+        <div>
+            <label for="fact">Fun Fact:</label>
+            <textarea id="fact" name="fact" required></textarea>
+        </div>
+        <button type="submit">Add Fact</button>
+    </form>
+    <script>
+        const form = document.getElementById('add-fact-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            const response = await fetch('/api/funfacts/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                alert('Fact added successfully!');
+                window.location.href = '/fun_facts/'; // Redirect to view page
+            } else {
+                const errorData = await response.json();
+                alert(`Error adding fact: ${JSON.stringify(errorData)}`);
+            }
+        });
+    </script>
+</body>
+</html>
