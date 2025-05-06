@@ -6,7 +6,7 @@ A comprehensive **Rise of Hablu — Personal Growth & Productivity Platform** th
 
 ## ✨ **Project Overview**
 
-This project integrates multiple modules through a clean **REST API backend** using **Django Rest Framework** and a simple **Frontend interface** using **Django templates (HTML, CSS)**.
+This project integrates multiple modules through a clean **REST API backend** using **Django Rest Framework** and a simple **Frontend interface** using **Django templates (HTML, CSS, JavaScript)**.
 
 It uses **SQLite3** as the default lightweight database.
 
